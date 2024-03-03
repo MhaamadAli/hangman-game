@@ -15,6 +15,15 @@ const words = [
     "tech"
 ]
 
+const penaltyFunctions = [
+    head,
+    body,
+    leftHand,
+    rightHand,
+    leftLeg,
+    rightLeg
+];
+
 const randomWord = getRandomWord(words)
 
 const letterButtons = document.querySelectorAll(".letter")
@@ -59,13 +68,15 @@ function drawDashes(word) {
 
 // Process the clicked letter
 function handleLetter(clickedLetter) {
-    const index = clickedLetter.charCodeAt(0) - 97
-    if (index >= 0 && index <= 25) {
-        if (!isLetterInWord(clickedLetter)) { // If the letter is not in the word
-            applyPenalty(); // Apply penalty
-        } else { // If the letter is in the word
-            displayLetter(clickedLetter); // Update displayed word
-            drawDashes(displayedWord); // Redraw display
+    if (!gameOver) {
+        const index = clickedLetter.charCodeAt(0) - 97
+        if (index >= 0 && index <= 25) {
+            if (!isLetterInWord(clickedLetter)) { // If the letter is not in the word
+                applyPenalty(); // Apply penalty
+            } else { // If the letter is in the word
+                displayLetter(clickedLetter); // Update displayed word
+                drawDashes(displayedWord); // Redraw display
+            }
         }
     }
 }
@@ -75,7 +86,12 @@ function isLetterInWord(letter) {
 }
 
 function applyPenalty() {
-    penaltyCount += 1
+    if (penaltyCount < penaltyFunctions.length) {
+        penaltyFunctions[penaltyCount]();
+        penaltyCount++;
+    } else {
+        penaltyCount = penaltyFunctions.length;
+    }
 }
 
 
