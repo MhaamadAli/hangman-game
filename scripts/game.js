@@ -35,7 +35,7 @@ initializeGame()
 function handleButtonClick(event) {
     const clickedLetter = event.target.textContent.toLowerCase();
     
-    // Process the clicked letter
+    
     handleLetter(clickedLetter);
 }
 
@@ -66,18 +66,19 @@ function drawDashes(word) {
 }
 
 
-// Process the clicked letter
+
 function handleLetter(clickedLetter) {
     if (!gameOver) {
         const index = clickedLetter.charCodeAt(0) - 97
         if (index >= 0 && index <= 25) {
-            if (!isLetterInWord(clickedLetter)) { // If the letter is not in the word
-                applyPenalty(); // Apply penalty
-            } else { // If the letter is in the word
-                displayLetter(clickedLetter); // Update displayed word
-                drawDashes(displayedWord); // Redraw display
+            if (!isLetterInWord(clickedLetter)) { 
+                applyPenalty(); 
+            } else { 
+                displayLetter(clickedLetter); 
+                drawDashes(displayedWord); 
             }
         }
+        checkGameStatus()
     }
 }
 
@@ -98,14 +99,34 @@ function applyPenalty() {
 function displayLetter(letter) {
     for (let i = 0; i < randomWord.length; i++) {
         if (randomWord[i] === letter) {
-            // Replace character at index with guessed letter
+            
             displayedWord = setCharAt(displayedWord, i, letter);
         }
     }
 }
 
-// Helper function to replace character at specific index in a string
+
 function setCharAt(str, index, char) {
     if (index < 0 || index >= str.length) return str;
     return str.substring(0, index) + char + str.substring(index + 1);
+}
+
+
+function checkGameStatus() {
+    if (displayedWord === randomWord) {
+        gameOver = true;
+        alert("Congratulations! You've won!");
+        restartGame();
+    } else if (penaltyCount === penaltyFunctions.length) {
+        gameOver = true;
+        alert("Game over! You've lost. The word was: " + randomWord);
+        restartGame();
+    }
+}
+
+
+function restartGame() {
+    setTimeout(function () {
+        location.reload()
+    }, 2500)
 }
