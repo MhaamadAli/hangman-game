@@ -12,7 +12,9 @@ const words = [
     "sleep",
     "assignment",
     "due",
-    "tech"
+    "tech",
+    "aggressive",
+    "hindie"
 ]
 
 const penaltyFunctions = [
