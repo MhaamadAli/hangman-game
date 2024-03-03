@@ -65,7 +65,12 @@ function drawDashes(word) {
     })
 }
 
-
+document.addEventListener("keypress", function(event) {
+    const pressedKey = event.key.toLowerCase();
+    if (isAlphabet(pressedKey)) {
+        handleLetter(pressedKey);
+    }
+})
 
 function handleLetter(clickedLetter) {
     if (!gameOver) {
@@ -81,6 +86,11 @@ function handleLetter(clickedLetter) {
         checkGameStatus()
     }
 }
+
+function isAlphabet(char) {
+    return char >= 'a' && char <= 'z';
+}
+
 
 function isLetterInWord(letter) {
     return randomWord.includes(letter);
